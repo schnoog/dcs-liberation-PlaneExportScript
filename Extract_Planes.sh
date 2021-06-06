@@ -6,6 +6,9 @@ SP=`dirname $(realpath $0)`
 #echo $SP
 cd "$SP"
 
+export DATAFILE="DCS/planes.py"
+export WEAPONFILE="DCS/weapons_data.py"
+
 mkdir -p OUTPUT
 
 export exporttmpdir="$SP""/exporttmpdir/"
@@ -54,13 +57,13 @@ function ExportPlane {
 	echo "#####################################"
 	PFILE="$exporttmpdir""$PLANE"".dump"
 	WFILE="$exporttmpdir""$PLANE"".weapon"
-#	PF=$(cat "DCS/planes.py")
+#	PF=$(cat "$DATAFILE")
 	SL="class $PLANE""(PlaneType)"
-	FIRSTLINE=$(grep -n "$SL" DCS/planes.py | cut -d ':' -f 1)
-	#grep -n "$SL" DCS/planes.py
-	ABSEND=$(grep -n 'plane_map =' DCS/planes.py | cut -d ':' -f 1)
+	FIRSTLINE=$(grep -n "$SL" $DATAFILE | cut -d ':' -f 1)
+	#grep -n "$SL" $DATAFILE
+	ABSEND=$(grep -n 'plane_map =' $DATAFILE | cut -d ':' -f 1)
 	
-	POSSENDS=$(grep -n '(PlaneType)' DCS/planes.py | grep -A99999 "$SL" | cut -d ':' -f 1)
+	POSSENDS=$(grep -n '(PlaneType)' $DATAFILE | grep -A99999 "$SL" | cut -d ':' -f 1)
 	
 	for POSSEND in $POSSENDS
 	do
@@ -78,7 +81,7 @@ function ExportPlane {
 
 
 	echo "Extract $PLANE from $FIRSTLINE to $LASTLINE"
-	cat DCS/planes.py | head -n +$LASTLINE | tail -n +$FIRSTLINE > "$PFILE"
+	cat $DATAFILE | head -n +$LASTLINE | tail -n +$FIRSTLINE > "$PFILE"
 
 
 	ALLWEAPONS=$(grep 'Weapons.' "$PFILE" | cut -d '=' -f 1 | sort -u )
@@ -89,7 +92,7 @@ function ExportPlane {
 	tmp="    "$(echo "$WEAPON" | xargs)" ="
 	echo "---""$tmp""---" 
 
-	grep $tmp DCS/weapons_data.py >> "$WFILE"
+	grep $tmp $WEAPONFILE >> "$WFILE"
 
 	done
 
@@ -108,10 +111,10 @@ then
 fi
 
 
-PLANENAMES=$(grep "$PLANE_NAME" DCS/planes.py | grep PlaneType | cut -d " " -f 2 | cut -d '(' -f 1)
+PLANENAMES=$(grep "$PLANE_NAME" $DATAFILE | grep PlaneType | cut -d " " -f 2 | cut -d '(' -f 1)
 
 for PLANE_WORK in $PLANENAMES
 do
-#	ExportPlane "$PLANE_WORK"
+	ExportPlane "$PLANE_WORK"
 	SanitizePlane "$PLANE_WORK"
 done
