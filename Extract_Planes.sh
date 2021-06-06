@@ -17,7 +17,8 @@ function SanitizePlane {
 	PLANE=$1
 	PFILE="$exporttmpdir""$PLANE"".dump"
 	WFILE="$exporttmpdir""$PLANE"".weapon"
-	OUTFILE="OUTPUT/$PLANE"".py"
+	mkdir -p "OUTPUT/$PLANE/"
+	OUTFILE="OUTPUT/$PLANE/$PLANE"".py"
 	echo "Combining $PFILE AND $WFILE to $OUTFILE"
 	
 	echo 'from enum import Enum' > "$OUTFILE"
@@ -31,8 +32,8 @@ function SanitizePlane {
 	echo '' >> "$OUTFILE"
 	echo '' >> "$OUTFILE"
 	echo '' >> "$OUTFILE"
-	WCLASS="Weapons""$PLANE"":"
-	echo "class $WCLASS" >> "$OUTFILE"
+	WCLASS="Weapons""$PLANE"
+	echo "class $WCLASS"":" >> "$OUTFILE"
 	cat "$WFILE" >> "$OUTFILE"
 	echo '' >> "$OUTFILE"
 	echo '' >> "$OUTFILE"
@@ -111,6 +112,6 @@ PLANENAMES=$(grep "$PLANE_NAME" DCS/planes.py | grep PlaneType | cut -d " " -f 2
 
 for PLANE_WORK in $PLANENAMES
 do
-	ExportPlane "$PLANE_WORK"
+#	ExportPlane "$PLANE_WORK"
 	SanitizePlane "$PLANE_WORK"
 done
