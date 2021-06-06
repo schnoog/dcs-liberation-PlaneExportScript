@@ -8,6 +8,9 @@ extracts data (after export) from DCS/planes.py into plane specific py files
 
 Remark: In my installation the aircraft data was stored in planes.py instead of aircraft.py like mentioned in the dsc_liberation Wiki
 
+If your installation exports into aircraft.py, please adjust the line 
+
+export DATAFILE="DCS/planes.py"
 
 Extract the data as explained in the dcs_liberation wiki into the DCS folder of this script.
 
