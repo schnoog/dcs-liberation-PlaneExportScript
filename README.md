@@ -14,6 +14,9 @@ export DATAFILE="DCS/planes.py"
 
 Extract the data as explained in the dcs_liberation wiki into the DCS folder of this script.
 
+Install bash (f.e. Git for Windows or MinGW), open bash move into the script folder (f.e.  cd /E/DCS_Tools/ )
+
+
 Run with 
 ./Extract_Planes.sh -Plane-Name-
 
