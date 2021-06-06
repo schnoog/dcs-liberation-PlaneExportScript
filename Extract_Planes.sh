@@ -3,13 +3,14 @@ IFS="
 "
 
 SP=`dirname $(realpath $0)`
-echo $SP
+#echo $SP
 cd "$SP"
 
 mkdir -p OUTPUT
 
 export exporttmpdir="$SP""/exporttmpdir/"
 mkdir -p "$exporttmpdir"
+
 
 
 function SanitizePlane {
@@ -110,13 +111,6 @@ PLANENAMES=$(grep "$PLANE_NAME" DCS/planes.py | grep PlaneType | cut -d " " -f 2
 
 for PLANE_WORK in $PLANENAMES
 do
-
-	#ExportPlane "$PLANE_WORK"
+	ExportPlane "$PLANE_WORK"
 	SanitizePlane "$PLANE_WORK"
-
-
-
-
-
-
 done
